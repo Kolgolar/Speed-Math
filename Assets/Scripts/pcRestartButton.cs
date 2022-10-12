@@ -1,11 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class PC_Button : MonoBehaviour, IPointerClickHandler
+public class pcRestartButton : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private bool boolData;
-    public static Action<bool> onClicked;
+    public static Action onClicked;
     void Start()
     {
 
@@ -18,6 +19,6 @@ public class PC_Button : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onClicked?.Invoke(boolData);
+        onClicked?.Invoke();
     }
 }
