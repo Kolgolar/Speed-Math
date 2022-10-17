@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class TruenessIndicator : MonoBehaviour
 {
-    private const float lightMaxIntensity = 20.0f;
-    private const float lightIntensityDelta = 200.0f;
+    private enum States { Off, TurningOff, TurningOn, On};
+    private States state;
+    private const float lightTogglingTime = 0.1f;
+    private const float lightMaxIntensity = 40.0f;
+    private float lightIntensityDelta = lightMaxIntensity / lightTogglingTime;
     private int lightIntensityMult = -1;
-    private bool isTimerOn = false;
-    private const float timerStartingTime = 0.25f;
-    private float timerTimeLeft = timerStartingTime;
+    private const float fullBrightnessTime = 0.25f;
+    private float fullBrightnessTimeLeft = fullBrightnessTime;
     
     private void OnEnable()
     {
@@ -29,45 +28,56 @@ public class TruenessIndicator : MonoBehaviour
 
     private void Update()
     {
-        TimerUpdate();
-        LightUpdate();
-
+        if (state == States.On)
+            TimerUpdate();
+        else if (state != States.Off)
+            LightUpdate();
     }
 
     private void LightUpdate()
     {
         var light = GetComponent<Light>();
         light.intensity += Time.deltaTime * lightIntensityDelta * lightIntensityMult;
-        light.intensity = Math.Clamp(light.intensity, 0, lightMaxIntensity);
+        // light.intensity = Math.Clamp(light.intensity, 0, lightMaxIntensity);
+        if (state == States.TurningOn)
+        {
+            if (light.intensity >= lightMaxIntensity)
+                state = States.On;
+        }
+        else if (state == States.TurningOff)
+        {
+            if (light.intensity <= 0)
+            {                
+                state = States.Off;
+                fullBrightnessTimeLeft = fullBrightnessTime;
+            }
+
+        }
     }
 
     private void TimerUpdate()
     {
-        if (isTimerOn)
+        fullBrightnessTimeLeft -= Time.deltaTime;
+        if (fullBrightnessTimeLeft <= 0)
         {
-            timerTimeLeft -= Time.deltaTime;
-            if (timerTimeLeft <= 0)
-            {
-                isTimerOn = false;
-                LightDown();
-            }
+            LightDown();
         }
     }
 
     private void LightUp(bool isRight)
     {
+        state = States.TurningOn;
         var lightColor = Color.red;
         if (isRight)
             lightColor = Color.green;
         var light = GetComponent<Light>();
         lightIntensityMult = 1;
         light.color = lightColor;
-        isTimerOn = true;
-        timerTimeLeft = timerStartingTime;
     }
 
     private void LightDown()
     {
+        state = States.TurningOff;
         lightIntensityMult = -1;
     }
 }

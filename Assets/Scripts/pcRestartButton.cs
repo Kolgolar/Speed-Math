@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class pcRestartButton : MonoBehaviour, IPointerClickHandler
+public class PCRestartButton : MonoBehaviour, IPointerClickHandler
 {
     public static Action onClicked;
     void Start()

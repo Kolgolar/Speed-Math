@@ -33,20 +33,20 @@ public class PlayCircuit : MonoBehaviour
     
     private void OnEnable() 
     {
-        PC_Button.onClicked += AnswerRecieved;
-        pcRestartButton.onClicked += Restart;
+        PCButton.onClicked += AnswerRecieved;
+        PCRestartButton.onClicked += Restart;
+        onStatsChanged?.Invoke(Score, Lives);
     }
 
     private void OnDisable() 
     {
-        PC_Button.onClicked -= AnswerRecieved;
-        pcRestartButton.onClicked -= Restart;
+        PCButton.onClicked -= AnswerRecieved;
+        PCRestartButton.onClicked -= Restart;
     }
     
     void Start()
     {
         ShowExample();
-        onStatsChanged?.Invoke(Score, Lives);   
     }
 
     void Update()
