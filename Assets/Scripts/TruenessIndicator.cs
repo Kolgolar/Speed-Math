@@ -13,12 +13,12 @@ public class TruenessIndicator : MonoBehaviour
     
     private void OnEnable()
     {
-        PlayCircuit.onAnswerRecieved += LightUp;
+        MainCircuit.onAnswerRecieved += LightUp;
     }
 
     private void OnDisable()
     {
-        PlayCircuit.onAnswerRecieved -= LightUp;
+        MainCircuit.onAnswerRecieved -= LightUp;
     }
 
     private void Start() 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayCircuitData
+public class GameData
 {
     public int highscore;
 
-    public PlayCircuitData(PlayCircuitData circuit)
+    public GameData(MainCircuit circuit)
     {
         highscore = circuit.highscore;
     }

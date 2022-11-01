@@ -6,11 +6,29 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SaveGameData(PlayCircuit playCircuit)
+    private static string savePath = Application.persistentDataPath + "/savedata.lmao";
+    public static void SaveData(MainCircuit mainCircuit)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/savedata.lmao";
-        FileStream stream = new FileStream(path, FileMode.Create);
-        PlayCircuitData pcData = new PlayCircuitData(playCircuit);
+        FileStream stream = new FileStream(savePath, FileMode.Create);
+        GameData data = new GameData(mainCircuit);
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static GameData LoadData()
+    {
+        if (File.Exists(savePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(savePath, FileMode.Open);
+            GameData data = formatter.Deserialize(stream) as GameData;
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Save file not found in" + savePath);
+            return null;
+        }
     }
 }

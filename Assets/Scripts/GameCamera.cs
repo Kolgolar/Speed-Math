@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameCamera : MonoBehaviour
 {
-    const float DEFAULT_HEIGHT = 5.5f;
+    const float DEFAULT_HEIGHT = 4.8f;
     private Vector3 targetPos;
     private Vector3 startPos;
     private static float interpolationTime = 1f;

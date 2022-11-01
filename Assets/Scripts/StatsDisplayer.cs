@@ -9,12 +9,14 @@ public class StatsDisplayer : MonoBehaviour
     
     private void OnEnable()
     {
-        PlayCircuit.onStatsChanged += UpdateStats;    
+        MainCircuit.onStatsChanged += UpdateStats;    
+        MainCircuit.onGameOver += ShowGameOverScreen;    
     }
 
     private void OnDisable()
     {
-        PlayCircuit.onStatsChanged -= UpdateStats;    
+        MainCircuit.onStatsChanged -= UpdateStats;
+        MainCircuit.onGameOver -= ShowGameOverScreen;      
     }
 
     private void Start() 
@@ -24,5 +26,10 @@ public class StatsDisplayer : MonoBehaviour
     void UpdateStats(int score, int lives)
     {
         ScreenText.text = string.Format("Score:\n{0}\nLives:\n{1}", score.ToString(), lives.ToString());
+    }
+
+    void ShowGameOverScreen(int score, int highscore)
+    {
+        ScreenText.text = string.Format("Score:\n{0}\nHighscore:\n{1}", score.ToString(), highscore.ToString());
     }
 }

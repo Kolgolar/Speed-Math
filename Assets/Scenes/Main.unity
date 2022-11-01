@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 112251794}
   - component: {fileID: 112251798}
   m_Layer: 0
-  m_Name: PlayCircuit
+  m_Name: MainCircuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExampleText: {fileID: 1505429556}
+  highscore: 0
 --- !u!1 &183396148
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +430,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 420469580}
-  - component: {fileID: 420469581}
   m_Layer: 0
   m_Name: MainLogic
   m_TagString: Untagged
@@ -452,18 +452,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &420469581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 420469579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ea11625bc8b8144be07dcd77cc9f2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &469714033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2222,11 +2210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5530434951223764209, guid: a4f3a048ba97dc24cbb5986f5eed7066, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.33
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 5530434951223764209, guid: a4f3a048ba97dc24cbb5986f5eed7066, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 5530434951223764209, guid: a4f3a048ba97dc24cbb5986f5eed7066, type: 3}
       propertyPath: m_LocalPosition.z

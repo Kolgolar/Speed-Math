@@ -2,12 +2,12 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class PlayCircuit : MonoBehaviour
+public class MainCircuit : MonoBehaviour
 {
     public GameObject ExampleText;
     public static Action<int, int> onStatsChanged;
     public static Action<bool> onAnswerRecieved;
-    public static Action onGameOver;
+    public static Action<int, int> onGameOver;
     public int highscore = 0;    
     private int Score = 0;
     private int Lives = 3;
@@ -33,20 +33,25 @@ public class PlayCircuit : MonoBehaviour
     }
     private void OnEnable() 
     {
-        PCButton.onClicked += AnswerRecieved;
+        MCButton.onClicked += AnswerRecieved;
         PCRestartButton.onClicked += Restart;
-        onStatsChanged?.Invoke(Score, Lives);
     }
 
     private void OnDisable() 
     {
-        PCButton.onClicked -= AnswerRecieved;
+        MCButton.onClicked -= AnswerRecieved;
         PCRestartButton.onClicked -= Restart;
     }
     
     void Start()
     {
+        GameData data = SaveSystem.LoadData();
+        if (data is null == false)
+        {
+            highscore = data.highscore;
+        }
         ShowExample();
+        onStatsChanged?.Invoke(Score, Lives);
     }
 
 
@@ -94,9 +99,13 @@ public class PlayCircuit : MonoBehaviour
 
     private void GameOver()
     {
-        onGameOver?.Invoke();
+        if (Score > highscore)
+            highscore = Score;
+        onGameOver?.Invoke(Score, highscore);
         ExampleText.GetComponent<TextMeshProUGUI>().text = "Game Over!";
+        
         isGameOver = true;
+        SaveSystem.SaveData(this);
     }
 
 
