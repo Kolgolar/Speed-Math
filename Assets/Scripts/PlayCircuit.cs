@@ -8,6 +8,7 @@ public class PlayCircuit : MonoBehaviour
     public static Action<int, int> onStatsChanged;
     public static Action<bool> onAnswerRecieved;
     public static Action onGameOver;
+    public int highscore = 0;    
     private int Score = 0;
     private int Lives = 3;
     private int ForfeitPoints = 50;
@@ -30,7 +31,6 @@ public class PlayCircuit : MonoBehaviour
             this.fakeAnsw = fa;
         }
     }
-    
     private void OnEnable() 
     {
         PCButton.onClicked += AnswerRecieved;
@@ -48,6 +48,7 @@ public class PlayCircuit : MonoBehaviour
     {
         ShowExample();
     }
+
 
     void Update()
     {
@@ -70,9 +71,7 @@ public class PlayCircuit : MonoBehaviour
         {
             if (choice == IsRightExampleShowed)
             {
-                //RightAnswQ++;
                 Score += SuccessPoints;
-                //RightAnswText.GetComponent<TextMeshProUGUI>().text = RightAnswQ.ToString();
                 Debug.Log("Верно!");
             }
             else
@@ -82,7 +81,6 @@ public class PlayCircuit : MonoBehaviour
                 if (Score < 0)
                     Score = 0;
                 Lives -= 1;
-                //WrongAnswText.GetComponent<TextMeshProUGUI>().text = WrongAnswQ.ToString();
                 Debug.Log("Неверно!");
             }
             onAnswerRecieved?.Invoke(choice == IsRightExampleShowed);
@@ -113,21 +111,27 @@ public class PlayCircuit : MonoBehaviour
         }
         else
             IsRightExampleShowed = true;
-        var str = string.Format("{0} {1} {2} = {3}", Data.first, Data.sign, Data.second, AnswToShow);
+        var str = string.Format("{0}{1}{2}={3}", Data.first, Data.sign, Data.second, AnswToShow);
         ExampleText.GetComponent<TextMeshProUGUI>().text = str;
     }
 
     private ExampleData CreateExample()
     {
         ExampleData data;
-        var type = UnityEngine.Random.Range(0, 2);
+        var type = UnityEngine.Random.Range(0, 4);
         switch(type)
         {
             case 0:
                 data = CreateSum();
                 break;
             case 1:
-                data = CreateDifference();
+                data = CreateDiff();
+                break;
+            case 2:
+                data = CreateMult();
+                break;
+            case 3:
+                data = CreateDiv();
                 break;
             default:
                 data = CreateSum();
@@ -157,7 +161,7 @@ public class PlayCircuit : MonoBehaviour
         return Data;
     }
 
-    private ExampleData CreateDifference()
+    private ExampleData CreateDiff()
     {
         var max = 100;
         var s1 = UnityEngine.Random.Range(0, max + 1);
@@ -165,6 +169,28 @@ public class PlayCircuit : MonoBehaviour
         var rightAnsw = s1 - s2;
         var fakeAnsw = GenRandWithException(-max, max, rightAnsw);
         var Data = new ExampleData(s1, s2, "-", rightAnsw, fakeAnsw);
+        return Data;
+    }
+
+    private ExampleData CreateMult()
+    {
+        var max = 20;
+        var s1 = UnityEngine.Random.Range(0, max + 1);
+        var s2 = UnityEngine.Random.Range(0, max + 1);
+        var rightAnsw = s1 * s2;
+        var fakeAnsw = GenRandWithException(-max * max, max * max, rightAnsw);
+        var Data = new ExampleData(s1, s2, "*", rightAnsw, fakeAnsw);
+        return Data;
+    }
+
+    private ExampleData CreateDiv()
+    {
+        var max = 20;
+        var s2 = UnityEngine.Random.Range(0, max + 1);
+        var rightAnsw = UnityEngine.Random.Range(0, max + 1);
+        var s1 = s2 * rightAnsw;
+        var fakeAnsw = GenRandWithException(-max * max, max * max, rightAnsw);
+        var Data = new ExampleData(s1, s2, "/", rightAnsw, fakeAnsw);
         return Data;
     }
 }

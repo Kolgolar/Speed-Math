@@ -23,6 +23,6 @@ public class StatsDisplayer : MonoBehaviour
     }
     void UpdateStats(int score, int lives)
     {
-        ScreenText.text = string.Format("Счёт:\n{0}\nЖизней:\n{1}", score.ToString(), lives.ToString());
+        ScreenText.text = string.Format("Score:\n{0}\nLives:\n{1}", score.ToString(), lives.ToString());
     }
 }

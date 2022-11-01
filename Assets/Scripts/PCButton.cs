@@ -6,15 +6,7 @@ public class PCButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private bool boolData;
     public static Action<bool> onClicked;
-    void Start()
-    {
 
-    }
-
-    void Update()
-    {
-        
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

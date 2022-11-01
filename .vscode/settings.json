@@ -1,3 +1,7 @@
 {
-    "omnisharp.useModernNet": false
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.path": "latest",
+    "omnisharp.projectLoadTimeout": 60,
+    "omnisharp.useGlobalMono": "always",
+    "omnisharp.useModernNet": true,
 }
