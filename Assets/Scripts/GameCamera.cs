@@ -46,7 +46,7 @@ public class GameCamera : MonoBehaviour
         startPos = transform.position;
         targetPos = target.transform.position;
         startRot = transform.rotation;
-        targetRot = Quaternion.Euler(new Vector3(90, 0, 0));
+        targetRot = Quaternion.Euler(new Vector3(75, 0, 0));
         targetPos.y = DEFAULT_HEIGHT;
         elapsedTime = 0;
     }
