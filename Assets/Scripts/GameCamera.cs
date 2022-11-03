@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GameCamera : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject startTarget;
     const float DEFAULT_HEIGHT = 4.8f;
-    private Vector3 targetPos;
-    private Vector3 startPos;
+    private Vector3 targetPos, startPos;
+    private Quaternion startRot, targetRot;
     private static float interpolationTime = 1f;
     private float elapsedTime = interpolationTime;
 
@@ -23,7 +25,7 @@ public class GameCamera : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(transform.position.x, DEFAULT_HEIGHT, transform.position.z);
+       MoveTo(startTarget);
     }
 
     void Update()
@@ -32,8 +34,10 @@ public class GameCamera : MonoBehaviour
         {
             float interpolationRatio = (float)elapsedTime / interpolationTime;
             Vector3 interpolatedPosition = Vector3.Slerp(startPos, targetPos, interpolationRatio);
+            Quaternion interpolatedRotation = Quaternion.Slerp(startRot, targetRot, interpolationRatio);
             elapsedTime += Time.deltaTime;
             transform.position = interpolatedPosition;
+            transform.rotation = interpolatedRotation;
         }
     }
 
@@ -41,6 +45,8 @@ public class GameCamera : MonoBehaviour
     {
         startPos = transform.position;
         targetPos = target.transform.position;
+        startRot = transform.rotation;
+        targetRot = Quaternion.Euler(new Vector3(90, 0, 0));
         targetPos.y = DEFAULT_HEIGHT;
         elapsedTime = 0;
     }

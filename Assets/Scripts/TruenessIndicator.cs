@@ -5,7 +5,7 @@ public class TruenessIndicator : MonoBehaviour
     private enum States { Off, TurningOff, TurningOn, On};
     private States state;
     private const float lightTogglingTime = 0.1f;
-    private const float lightMaxIntensity = 40.0f;
+    private const float lightMaxIntensity = 1f;
     private float lightIntensityDelta = lightMaxIntensity / lightTogglingTime;
     private int lightIntensityMult = -1;
     private const float fullBrightnessTime = 0.25f;
