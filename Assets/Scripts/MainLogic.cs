@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class MainLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private GameObject mainGameCamTarget;
+    [SerializeField] private GameCamera gameCam;
+    [SerializeField] private MainCircuit mainCircuit;
+
+    private void OnEnable() 
+    {
+        GMButton.onClicked += onGameModeClicked;
+    }
+
+    private void OnDisable() 
+    {
+        GMButton.onClicked -= onGameModeClicked;
+    }
+
     void Start()
     {
         
     }
 
-
     private void GoToMainCircuit()
     {
         
     }
-
 
     private void GoToMainMenu()
     {
@@ -27,5 +38,10 @@ public class MainLogic : MonoBehaviour
 
     }
 
+    private void onGameModeClicked(int gamemode)
+    {
+        gameCam.MoveTo(mainGameCamTarget);
+        mainCircuit.Gamemode = gamemode;
+    }
     
 }

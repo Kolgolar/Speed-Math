@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Unity Editor",
+            "name": "Unity Editor (Unity)",
             "type": "unity",
-            "path": "/C:/Unity Projects/Speed Math/Library/EditorInstance.json",
+            "path": "C:/Unity Projects/Speed Math/Library/EditorInstance.json",
             "request": "launch"
         },
         {

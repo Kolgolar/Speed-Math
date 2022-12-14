@@ -9,7 +9,7 @@ public class GameCamera : MonoBehaviour
     const float DEFAULT_HEIGHT = 4.8f;
     private Vector3 targetPos, startPos;
     private Quaternion startRot, targetRot;
-    private static float interpolationTime = 1f;
+    private static float interpolationTime = 0.5f;
     private float elapsedTime = interpolationTime;
 
 
@@ -41,7 +41,7 @@ public class GameCamera : MonoBehaviour
         }
     }
 
-    void MoveTo(GameObject target)
+    public void MoveTo(GameObject target)
     {
         startPos = transform.position;
         targetPos = target.transform.position;

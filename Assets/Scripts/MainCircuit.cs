@@ -31,6 +31,14 @@ public class MainCircuit : MonoBehaviour
             this.fakeAnsw = fa;
         }
     }
+
+    private int gamemode = -1;
+    public int Gamemode {
+        set{gamemode = value; Debug.Log(gamemode); Restart();}
+        get{return gamemode;}
+    }
+
+
     private void OnEnable() 
     {
         MCButton.onClicked += AnswerRecieved;
@@ -68,7 +76,6 @@ public class MainCircuit : MonoBehaviour
         ShowExample();
         onStatsChanged?.Invoke(Score, Lives);
     }
-
 
     private void AnswerRecieved(bool choice)
     {
@@ -127,7 +134,12 @@ public class MainCircuit : MonoBehaviour
     private ExampleData CreateExample()
     {
         ExampleData data;
-        var type = UnityEngine.Random.Range(0, 4);
+        int type;
+        if (gamemode == -1)
+            type = UnityEngine.Random.Range(0, 4);
+        else
+            type = gamemode;
+
         switch(type)
         {
             case 0:
