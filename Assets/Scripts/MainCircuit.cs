@@ -1,9 +1,14 @@
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class MainCircuit : MonoBehaviour
 {
+    public float nextQuestionDelay = 1f;
+    public GameObject truenessIndicator;
     public GameObject ExampleText;
     public GameObject scoreBoard;
     public static Action<int, int> onStatsChanged;
@@ -56,6 +61,8 @@ public class MainCircuit : MonoBehaviour
     
     void Start()
     {
+        MCButton.canBePressed = true;
+        truenessIndicator.GetComponent<TruenessIndicator>().fullBrightnessTime = nextQuestionDelay * 0.8f;
         GameData data = SaveSystem.LoadData();
         if (data is null == false)
         {
@@ -80,10 +87,12 @@ public class MainCircuit : MonoBehaviour
         Score = 0;
         ShowExample();
         onStatsChanged?.Invoke(Score, Lives);
+        MCButton.canBePressed = true;
     }
 
     private void AnswerRecieved(bool choice)
     {
+        MCButton.canBePressed = false;
         if (!isGameOver)
         {
             if (choice == IsRightExampleShowed)
@@ -105,9 +114,47 @@ public class MainCircuit : MonoBehaviour
             if (Lives == 0)
                 GameOver();
             else
-                ShowExample();
+                {
+                    // ShowLenny(choice == IsRightExampleShowed);
+                    ShowResult(choice == IsRightExampleShowed);
+                    StartCoroutine(Timer(nextQuestionDelay, () => 
+                    {
+                        ShowExample();
+                    }));  
+                }
         }
     }
+
+    IEnumerator Timer(float waitTime, System.Action action)
+    {
+        yield return new WaitForSeconds(waitTime);
+        action();
+    }
+
+
+    void ShowResult(bool isRight)
+    {
+        string textToShow = string.Format("+{0} pts!", SuccessPoints);
+        if (!isRight)
+        {
+            textToShow = string.Format("-{0} pts.", ForfeitPoints);
+        }
+        ExampleText.GetComponent<TextMeshProUGUI>().text = textToShow;
+    }
+    
+    /*void ShowLenny(bool isHappy)
+    {
+        string[] happyLennies = {"( ͡ᵔ ͜ʖ ͡ᵔ ", "( ͡~ ͜ʖ ͡°)", "(˵ ͡o ͜ʖ ͡o˵)", "( ͡° ͜ʖ ͡°)", "٩(^ᴗ^)۶"};
+        string[] sadLenny = {"ಠ╭╮ಠ", "(ó﹏ò｡)", "¯\\_(ツ)_/¯", "( ͠° ͟ʖ ͡°)", "ཀ ʖ̯ ཀ"};
+        string[] lennies;
+        if (isHappy)
+            lennies = happyLennies;
+        else
+            lennies = sadLenny;
+        int idx = Random.Range(0, lennies.Length);
+        ExampleText.GetComponent<TextMeshProUGUI>().text = lennies[idx];
+    }
+    */
 
     private void GameOver()
     {
@@ -135,6 +182,7 @@ public class MainCircuit : MonoBehaviour
             IsRightExampleShowed = true;
         var str = string.Format("{0}{1}{2}={3}", Data.first, Data.sign, Data.second, AnswToShow);
         ExampleText.GetComponent<TextMeshProUGUI>().text = str;
+        MCButton.canBePressed = true;
     }
 
     private ExampleData CreateExample()

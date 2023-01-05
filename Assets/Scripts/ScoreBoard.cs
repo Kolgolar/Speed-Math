@@ -45,7 +45,7 @@ public class ScoreBoard : MonoBehaviour
 
     public void PublishScore()
     {
-        // nickname = inputField.GetComponent<TMP_InputField>().text;
+        nickname = inputField.GetComponent<TMP_InputField>().text;
         if (nickname == "")
             nickname = "Player " + Random.RandomRange(1, 99999).ToString();
         // highscore = mainCircuit.GetComponent<MainCircuit>().highscore;

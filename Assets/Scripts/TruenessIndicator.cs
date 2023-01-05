@@ -8,8 +8,8 @@ public class TruenessIndicator : MonoBehaviour
     private const float lightMaxIntensity = 1f;
     private float lightIntensityDelta = lightMaxIntensity / lightTogglingTime;
     private int lightIntensityMult = -1;
-    private const float fullBrightnessTime = 0.25f;
-    private float fullBrightnessTimeLeft = fullBrightnessTime;
+    public float fullBrightnessTime = 1f;
+    private float fullBrightnessTimeLeft = 0;
     
     private void OnEnable()
     {
@@ -23,6 +23,7 @@ public class TruenessIndicator : MonoBehaviour
 
     private void Start() 
     {
+        fullBrightnessTimeLeft = fullBrightnessTime;
         LightDown();    
     }
 
@@ -66,6 +67,8 @@ public class TruenessIndicator : MonoBehaviour
 
     private void LightUp(bool isRight)
     {
+        fullBrightnessTimeLeft = fullBrightnessTime;
+        LightDown(); 
         state = States.TurningOn;
         var lightColor = Color.red;
         if (isRight)
