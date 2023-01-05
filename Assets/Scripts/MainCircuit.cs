@@ -5,10 +5,13 @@ using System;
 public class MainCircuit : MonoBehaviour
 {
     public GameObject ExampleText;
+    public GameObject scoreBoard;
     public static Action<int, int> onStatsChanged;
     public static Action<bool> onAnswerRecieved;
     public static Action<int, int> onGameOver;
-    public int highscore = 0;    
+    public string nickname = "";
+    public int highscore = 0;
+    public int publishedHighscore = 0;    
     private int Score = 0;
     private int Lives = 3;
     private int ForfeitPoints = 50;
@@ -57,6 +60,8 @@ public class MainCircuit : MonoBehaviour
         if (data is null == false)
         {
             highscore = data.highscore;
+            nickname = data.nickname;
+            scoreBoard.GetComponent<ScoreBoard>().SetValues(highscore, nickname);
         }
         ShowExample();
         onStatsChanged?.Invoke(Score, Lives);
@@ -113,6 +118,7 @@ public class MainCircuit : MonoBehaviour
         
         isGameOver = true;
         SaveSystem.SaveData(this);
+        scoreBoard.GetComponent<ScoreBoard>().SetValues(highscore, nickname);
     }
 
 

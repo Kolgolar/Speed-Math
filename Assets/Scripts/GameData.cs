@@ -6,9 +6,11 @@ using UnityEngine;
 public class GameData
 {
     public int highscore;
+    public string nickname;
 
     public GameData(MainCircuit circuit)
     {
         highscore = circuit.highscore;
+        nickname = circuit.nickname;
     }
 }

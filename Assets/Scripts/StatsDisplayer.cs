@@ -25,7 +25,8 @@ public class StatsDisplayer : MonoBehaviour
     }
     void UpdateStats(int score, int lives)
     {
-        ScreenText.text = string.Format("Score:\n{0}\nLives:\n{1}", score.ToString(), lives.ToString());
+        // ScreenText.text = string.Format("Score:\n{0}\nLives:\n{1}", score.ToString(), lives.ToString());
+        ScreenText.text = string.Format("Score:\n{0}", score.ToString());
     }
 
     void ShowGameOverScreen(int score, int highscore)
