@@ -120,7 +120,7 @@ public class ScoreBoard : MonoBehaviour
             newRow.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = string.Format("{0}) {1}", i + 1, recievedScores[i].nickname);
             newRow.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = recievedScores[i].score;
             newRow.transform.localEulerAngles = new Vector3(0, 0, 0);
-            newRow.transform.localPosition = new Vector3(0, currIdent, 0);
+            newRow.transform.localPosition = new Vector3(0, currIdent, -1.5f);
             currIdent -= IDENT;
         }
     }

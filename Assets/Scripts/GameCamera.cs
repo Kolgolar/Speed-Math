@@ -9,7 +9,7 @@ public class GameCamera : MonoBehaviour
     const float DEFAULT_HEIGHT = 4.8f;
     private Vector3 targetPos, startPos;
     private Quaternion startRot, targetRot;
-    private static float interpolationTime = 1.5f;
+    private static float interpolationTime = 0.8f;
     private float elapsedTime = interpolationTime;
     private bool shouldMove = false;
     private GameObject targetObject;
@@ -47,7 +47,7 @@ public class GameCamera : MonoBehaviour
         // targetPos = target.transform.position;
         targetPos = target.transform.position + target.transform.up * DEFAULT_HEIGHT;
         startRot = transform.rotation;
-        float lookAngle = 75f;
+        float lookAngle = 82.5f;
         if (target.transform.rotation != Quaternion.Euler(0, 0, 0))
             lookAngle = 90f;
         targetRot = target.transform.rotation * Quaternion.Euler(new Vector3(lookAngle, 0, 0));
