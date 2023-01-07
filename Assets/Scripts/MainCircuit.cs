@@ -11,12 +11,20 @@ public class MainCircuit : MonoBehaviour
     public GameObject truenessIndicator;
     public GameObject ExampleText;
     public GameObject scoreBoard;
+    public GameObject loadingDisplay;
+    public float timeToAnswer = 7f;
+    public float minTimeToAnswer = 3f;
+    public float timeToAnswerDelta = 0.1f;
     public static Action<int, int> onStatsChanged;
     public static Action<bool> onAnswerRecieved;
     public static Action<int, int> onGameOver;
     public string nickname = "";
     public int highscore = 0;
+    private string loadingString = ".........................................";
+    private int loadingStringLength;
+    private bool isQuestionShowed = false;
     public int publishedHighscore = 0;    
+    private float timeToAnswerLeft;
     private int Score = 0;
     private int Lives = 3;
     private int ForfeitPoints = 50;
@@ -51,16 +59,20 @@ public class MainCircuit : MonoBehaviour
     {
         MCButton.onClicked += AnswerRecieved;
         PCRestartButton.onClicked += Restart;
+        StopGameButton.onClicked += GameOver;
     }
 
     private void OnDisable() 
     {
         MCButton.onClicked -= AnswerRecieved;
         PCRestartButton.onClicked -= Restart;
+        StopGameButton.onClicked -= GameOver;
     }
     
     void Start()
     {
+        timeToAnswer += timeToAnswerDelta;
+        loadingStringLength = loadingString.Length;
         MCButton.canBePressed = true;
         truenessIndicator.GetComponent<TruenessIndicator>().fullBrightnessTime = nextQuestionDelay * 0.8f;
         GameData data = SaveSystem.LoadData();
@@ -70,14 +82,37 @@ public class MainCircuit : MonoBehaviour
             nickname = data.nickname;
             scoreBoard.GetComponent<ScoreBoard>().SetValues(highscore, nickname);
         }
-        ShowExample();
+        // ShowExample();
         onStatsChanged?.Invoke(Score, Lives);
     }
 
 
     void Update()
     {
-        
+        print(isQuestionShowed);
+        if (isQuestionShowed)
+        {
+            if (timeToAnswerLeft > 0)
+            {
+                UpdateTimeIndicator();
+                timeToAnswerLeft -= Time.deltaTime;
+            }
+            else
+            {
+                if (!isGameOver)
+                    AnswerRecieved(!IsRightExampleShowed);
+                timeToAnswerLeft = 0;
+            }
+        }
+    }
+
+    void UpdateTimeIndicator()
+    {
+        float persentage = timeToAnswerLeft / timeToAnswer;
+        int visibleCharacters = Convert.ToInt32(loadingStringLength * persentage);
+        print(visibleCharacters);
+        string strToShow = loadingString.Substring(loadingStringLength - visibleCharacters);
+        loadingDisplay.GetComponent<TextMeshProUGUI>().text = strToShow;
     }
 
     private void Restart()
@@ -92,6 +127,9 @@ public class MainCircuit : MonoBehaviour
 
     private void AnswerRecieved(bool choice)
     {
+        isQuestionShowed = false;
+        timeToAnswerLeft = 0;
+        UpdateTimeIndicator();
         MCButton.canBePressed = false;
         if (!isGameOver)
         {
@@ -158,6 +196,7 @@ public class MainCircuit : MonoBehaviour
 
     private void GameOver()
     {
+        isQuestionShowed = false;
         if (Score > highscore)
             highscore = Score;
         onGameOver?.Invoke(Score, highscore);
@@ -183,6 +222,10 @@ public class MainCircuit : MonoBehaviour
         var str = string.Format("{0}{1}{2}={3}", Data.first, Data.sign, Data.second, AnswToShow);
         ExampleText.GetComponent<TextMeshProUGUI>().text = str;
         MCButton.canBePressed = true;
+        isQuestionShowed = true;
+        if (timeToAnswer > minTimeToAnswer)
+            timeToAnswer -= timeToAnswerDelta;
+        timeToAnswerLeft = timeToAnswer;
     }
 
     private ExampleData CreateExample()
