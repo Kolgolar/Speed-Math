@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class RestartGameButton : MonoBehaviour, IPointerClickHandler
 {
+    public static Action onClicked;
     void Start()
     {
 
@@ -20,5 +21,6 @@ public class RestartGameButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        onClicked?.Invoke();
     }
 }

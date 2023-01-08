@@ -23,6 +23,12 @@ public class StatsDisplayer : MonoBehaviour
     {
         ScreenText = GetComponent<TextMeshProUGUI>();
     }
+
+    public void Clear()
+    {
+        ScreenText.text = ":)";
+    }
+
     void UpdateStats(int score, int lives)
     {
         // ScreenText.text = string.Format("Score:\n{0}\nLives:\n{1}", score.ToString(), lives.ToString());
